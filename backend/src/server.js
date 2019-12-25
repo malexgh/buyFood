@@ -1,17 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const router = require('./router');
 
-mongoose.connect('mongodb://localhost:27017/buyFood',
+mongoose.connect('mongodb://buyFood:buyFood@localhost:27017/',
     {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+        dbName: 'buyFood' // not working on connection string
     }
 );
 
 const app = express();
-
-app.get('/', function (req, res) {
-    res.send('Hello World');
-})
+app.use(express.json());
+app.use(router);
 
 module.exports = app;
