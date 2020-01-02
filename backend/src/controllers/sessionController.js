@@ -7,7 +7,7 @@ module.exports = {
             const token = await user.generateAuthToken();
             res.send({ user, token });
         } catch (error) {
-            res.status(400).send();
+            res.status(401).send();
         }
     },
     async logout(req, res) {

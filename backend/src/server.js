@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const router = require('./router');
 
 mongoose.connect('mongodb://buyFood:buyFood@localhost:27017/',
@@ -13,6 +14,7 @@ mongoose.connect('mongodb://buyFood:buyFood@localhost:27017/',
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 app.use(router);
 
 module.exports = app;
