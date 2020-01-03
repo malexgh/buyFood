@@ -39,14 +39,16 @@ function Login() {
           <img src={logo} alt="Logo" className="logo"></img>
         </div>
         <label htmlFor="email"><b>Email</b></label>
-        <input className="input-email"
+        <input type="email"
+          className="input-email"
           name="email"
           value={email}
           placeholder="Enter Email"
           onChange={(event) => setEmail(event.target.value)}>
         </input>
         <label htmlFor="password"><b>Password</b></label>
-        <input className="input-password"
+        <input type="password"
+          className="input-password"
           name="password"
           value={password}
           placeholder="Enter Password"
@@ -57,6 +59,7 @@ function Login() {
         </button>
         <label>
           <input type="checkbox"
+            className="regular-checkbox"
             name="remember"
             checked={remember}
             onChange={(event) => setRemember(event.target.checked)}>

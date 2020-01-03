@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const router = require('./router');
 
-mongoose.connect('mongodb://buyFood:buyFood@localhost:27017/',
+mongoose.connect('mongodb://buyFood:buyFood@mongo:27017/',
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
