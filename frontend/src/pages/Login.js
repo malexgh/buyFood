@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Login.scss';
 import logo from '../logo.svg';
 
-const baseUrl = 'http://localhost:3333';
+const baseUrl = '/api';
 
 function Login() {
   const [email, setEmail] = useState('');
