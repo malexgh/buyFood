@@ -9,6 +9,8 @@ services:
       MONGO_INITDB_ROOT_USERNAME: buyFood
       MONGO_INITDB_ROOT_PASSWORD: buyFood
   nginx:
+    depends_on:
+      - client
     restart: always
     build:
       dockerfile: Dockerfile.dev
@@ -25,11 +27,13 @@ services:
       - /app/node_modules
       - ./backend:/app
     # ports:
-    #   - '3333:3333'
+    #   - '3333:3333' # exposed just on DEV env
     environment:
       - MONGO_USER=buyFood
       - MONGO_PASSWORD=buyFood
   client:
+    depends_on:
+      - api
     build:
       dockerfile: Dockerfile.dev
       context: ./frontend

@@ -1,77 +1,68 @@
 import React, { useState } from 'react';
+import api from '../services/api';
 import './Login.scss';
 import logo from '../logo.svg';
 
-const baseUrl = '/api';
-
-function Login() {
+export default function Login({ history }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [remember, setRemember] = useState(true);
 
   async function handleLogin(event) {
+    event.preventDefault();
     setError('');
-    const response = await fetch(`${baseUrl}/sessions/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email,
-        password
-      })
-    });
-    //console.log(response);
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data.token);
-    }
-    else {
+    try {
+      const res = await api.post('/api/login', {
+        email, password
+      });
+      console.log(res);
+      if (res.status === 200) {
+        const token = res.data.token;
+        console.log(token);
+        history.push('/main', { token });
+      }
+      else {
+        setError('Login failed');
+      }
+    } catch (error) {
+      console.log(error);
       setError('Login failed');
     }
   }
 
   return (
-    <div className="Login">
-      <header className="Login-header">
-        <div className="logo-container">
-          <img src={logo} alt="Logo" className="logo"></img>
-        </div>
-        <label htmlFor="email"><b>Email</b></label>
-        <input type="email"
-          className="input-email"
-          name="email"
-          value={email}
-          placeholder="Enter Email"
-          onChange={(event) => setEmail(event.target.value)}>
-        </input>
-        <label htmlFor="password"><b>Password</b></label>
-        <input type="password"
-          className="input-password"
-          name="password"
-          value={password}
-          placeholder="Enter Password"
-          onChange={(event) => setPassword(event.target.value)}>
-        </input>
-        <button className="button-login" onClick={handleLogin}>
-          Login
-        </button>
-        <label>
-          <input type="checkbox"
-            className="regular-checkbox"
-            name="remember"
-            checked={remember}
-            onChange={(event) => setRemember(event.target.checked)}>
-          </input>
-          Remember me
-        </label>
+    < div className="Login">
+      <header>
+        <img src={logo} alt="Logo" className="logo"></img>
       </header>
-      {error && <footer className="Login-footer">
+      <main >
+        <form onSubmit={handleLogin}>
+          <label htmlFor="email"><b>Email</b></label>
+          <input type="email"
+            className="input-login"
+            name="email"
+            value={email}
+            placeholder="Enter Email"
+            onChange={(event) => setEmail(event.target.value)}
+            required
+          />
+          <label htmlFor="password"><b>Password</b></label>
+          <input type="password"
+            className="input-login"
+            name="password"
+            value={password}
+            placeholder="Enter Password"
+            onChange={(event) => setPassword(event.target.value)}
+            required
+          />
+          <button type="submit" >
+            Login
+          </button>
+        </form>
+      </main>
+      {error && <footer >
         <p>{error}</p>
       </footer>}
-    </div>
+    </ div>
   );
 }
-
-export default Login;
